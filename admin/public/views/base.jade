@@ -1,0 +1,36 @@
+doctype html
+html
+    head
+        link(rel='stylesheet',href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js")
+        script(src="../js/jquery.tablesorter.js")
+    body
+        nav(class="navbar navbar-inverse")
+            div(class="container")
+                div(class="navbar-header")
+                    a(class="navbar-brand") YRG
+                div
+                    ul(class="nav navbar-nav")
+                        li
+                            a(href="/institutions") Institution
+                        li
+                            a(href="/donors") Donors
+                        li
+                            a(href="/meals") Meals
+                        li
+                            a(href="/addons") Add-ons
+                        li
+                            a(href="/logout") Logout
+
+        div(class="container")
+
+            div(class="page-header")
+                block header
+                    h1 Example page header
+
+            br
+            br
+
+            block content
+        block js

@@ -7,7 +7,7 @@ var donor = function() {
         'id': String,
         'name': String,
         'email': String,
-        'phone': Number
+        'phone': String
     });
     return mongoose.model('donors', schema);
 };

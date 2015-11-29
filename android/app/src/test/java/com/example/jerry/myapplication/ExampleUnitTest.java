@@ -1,4 +1,4 @@
-package com.example.jerry.myapplication;
+package com.yrg.jerry.ecokitchen;
 
 import org.junit.Test;
 
