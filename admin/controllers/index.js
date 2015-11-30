@@ -48,16 +48,20 @@ module.exports = function(router) {
         requester(res, 'institution', 'institutions');
     });
 
-    router.get('/donors', function(req, res) {
+    router.get('/donors', authenticator, function(req, res) {
         requester(res, 'donor', 'donors');
     });
 
-    router.get('/meals', function(req, res) {
+    router.get('/meals', authenticator, function(req, res) {
         requester(res, 'meals', 'meals');
     });
 
-    router.get('/addons', function(req, res) {
+    router.get('/addons', authenticator, function(req, res) {
         requester(res, 'addons', 'addons');
+    });
+
+    router.get('/donations', authenticator, function(req, res) {
+        requester(res, 'donations', 'donations');
     });
 
     router.get('/logout', function (req, res) {

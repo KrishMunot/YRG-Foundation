@@ -2,9 +2,47 @@
 
 var DonorModel = require('../../../models').Donor,
     DonationModel = require('../../../models').Donations,
-    shortid = require('shortid');
+    InstitutionModel = require('../../../models').Institutions,
+    shortid = require('shortid'),
+    request = require('request'),
+
+
+    async = require('async');
 
 module.exports = function(router) {
+
+    router.get('/', function(req, res) {
+        DonationModel.find(function(err, data) {
+            if(err)
+                res.json({ 'error': 'API Error', 'message': 'Error occurred' });
+            else{
+                var fetchData = function (d, callback){
+                    InstitutionModel.findOne({'id': d.institution}, function(err1, r1){
+                        if(err1)
+                            res.json({ 'error': 'API Error', 'message': 'Error occurred' });
+                        else {
+                            d['institution'] = r1;
+                            DonorModel.findOne({'id': d.donorid}, function (err2, r2) {
+                                if(err2)
+                                    res.json({ 'error': 'API Error', 'message': 'Error occurred' });
+                                else{
+                                    //console.log(r2);
+                                    d['donorid']= r2;
+                                    //console.log(d);
+                                    return callback(null, d);
+                                }
+                            });
+                        }
+                    });
+                };
+
+                async.map(JSON.parse(JSON.stringify(data)), fetchData, function(err, result){
+                    res.json(result);
+               });
+            }
+        });
+    });
+
     router.get('/:donor', function(req, res) {
         DonationModel.find({
             'donorid': req.params.donor
@@ -79,8 +117,9 @@ module.exports = function(router) {
                     donorid: req.body.donorid,
                     institution: req.body.institution,
                     date: req.body.date,
-                    slot: req.body.slot,
-                    category: req.body.category,
+                    slot: req.body.slot.split(','),
+                    category: req.body.category.split(','),
+                    addons: req.body.addons.split(','),
                     amount: req.body.amount,
                     present: req.body.present
                 };
@@ -110,8 +149,9 @@ module.exports = function(router) {
                             donorid: data.id,
                             institution: req.body.institution,
                             date: req.body.date,
-                            slot: req.body.slot,
-                            category: req.body.category,
+                            slot: req.body.slot.split(','),
+                            category: req.body.category.split(','),
+                            addons: req.body.addons.split(','),
                             amount: req.body.amount,
                             present: req.body.present
                         };
